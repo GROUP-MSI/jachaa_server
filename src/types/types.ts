@@ -19,11 +19,12 @@ export interface ActivityLog {
   playerId?: string;
 }
 
-// Extensión correcta de WebSocket
+// Corrected extension of WebSocket
 export interface CustomWebSocket extends WebSocket {
   playerId?: string;
   _socket?: {
     remoteAddress?: string;
   };
-  on: WebSocket['on']; // Hereda el método 'on' de WebSocket
+  // Explicitly define the 'on' method with correct return type
+  on(event: string, listener: (...args: any[]) => void): this;
 }
