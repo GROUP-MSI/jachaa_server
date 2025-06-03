@@ -28,3 +28,21 @@ export interface CustomWebSocket extends WebSocket {
   // Explicitly define the 'on' method with correct return type
   on(event: string, listener: (...args: any[]) => void): this;
 }
+
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  id: string;
+  name: string;
+  token: string;
+}

@@ -1,6 +1,7 @@
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import { WSServer } from './server/wsServer';
 import cors from 'cors';
+import { AuthController } from './controllers/authController';
 
 const HTTP_PORT = 3000;
 const WS_PORT = 8080;
@@ -13,24 +14,25 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Endpoint para obtener logs
-app.get('/api/activity', (req, res) => {
+// Rutas de autenticación
+app.post('/api/auth/register', AuthController.register as RequestHandler);
+app.post('/api/auth/login', AuthController.login as RequestHandler);
+
+app.get("/api/activity", (req, res) => {
   res.json({
     success: true,
-    data: wsServer.getActivityLog()
+    data: wsServer.getActivityLog(),
   });
 });
 
-// Endpoint para obtener jugadores conectados
-app.get('/api/players', (req, res) => {
+app.get("/api/players", (req, res) => {
   res.json({
     success: true,
     count: wsServer.getPlayerCount(),
-    players: wsServer.getPlayers()
+    players: wsServer.getPlayers(),
   });
 });
 
-// Iniciar servidor HTTP
 app.listen(HTTP_PORT, () => {
   console.log(`🟢 Servidor de monitoreo en http://localhost:${HTTP_PORT}`);
 });
